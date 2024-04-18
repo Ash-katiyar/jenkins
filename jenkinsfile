@@ -1,0 +1,46 @@
+pipeline
+{
+  agent any
+  stages
+  {
+    stage('checkout'){
+       {
+        git https://github.com/Ash-katiyar/jenkins-demo.git
+       }
+    }
+
+    stage('build docker image')
+    {
+      steps{
+       script{
+         docker.build('my-web-app')
+        }
+      }
+    }
+    
+    stage('run docker container')
+    {
+      steps{
+        // running docker container.
+       script{
+         docker.image('my-web-app').run('-d -p 8080:80')
+        }
+      }
+    }
+  }
+
+  post{
+    success{
+      echo "build successful"
+    }
+    failure{
+      echo "build failure"
+    }
+    always{
+      script{
+        docker.image(my-web-app).stop()   
+        docker.image(my-web-app).remove()   
+      }
+    }
+  }
+}
