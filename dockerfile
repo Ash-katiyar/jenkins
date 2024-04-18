@@ -4,6 +4,6 @@ WORKDIR /app
 
 COPY .. /app
 
-EXPOSE 8080
+EXPOSE 8081
 
 CMD [ "echo","files are packed in this container"]
